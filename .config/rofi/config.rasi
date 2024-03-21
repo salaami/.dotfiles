@@ -1,0 +1,65 @@
+configuration {
+  display-drun : "";
+  display-window: "";
+  drun-display-format: "{icon} {name}";
+  font: "SFMono Nerd Font Mono Regular 10";
+  modi: "window,run,drun";
+  show-icons: true;
+  icon-theme: "Papirus";
+}
+
+@theme "/dev/null"
+
+* {
+  bg: #282A2E;
+  bg-alt: #2E3440;
+
+  fg: #D8DEE9;
+  fg-alt: #ffffff;
+
+  background-color: @bg;
+
+  border: 0;
+  padding: 2;
+  spacing: 2;
+  margin: 0;
+}
+
+window {
+  width: 45%;
+}
+
+elemement {
+  padding: 10;
+  text-color: @fg-alt;
+}
+
+element-selected {
+  text-color: @fg-alt;
+}
+
+element-text {
+  background-color: inherit;
+  text-color: @fg-alt;
+}
+
+element-icon {
+  size: 20;
+}
+
+entry {
+  background-color: @bg-alt;
+  padding: 12;
+  text-color: @fg-alt;
+}
+
+inputbar {
+  padding: 15;
+  children: [prompt, entry];
+}
+
+listview {
+  background-color: @bg;
+  columns: 1;
+  lines: 8;
+}
