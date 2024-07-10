@@ -106,21 +106,27 @@ source $ZSH/oh-my-zsh.sh
 
 # Alias
 alias dotfiles='/usr/bin/git --git-dir="$HOME/.dotfiles/" --work-tree="$HOME"'
+alias inv='nvim $(fzf --preview="bat --color=always {}")'
+alias copn='/home/salem/Salem/helper_scripts/create_note.sh'
 
-# Check whether ssh-agent is already running as a process
-# if not start it and create a run file with the environment
-# variables that ssh-agent gives us and wants us to source
+# Check if ssh-agent is running, if not, start it
 if ! pgrep -u "$USER" ssh-agent > /dev/null; then
-    ssh-agent > "$XDG_RUNTIME_DIR/ssh-agent.env"
+    eval $(ssh-agent -t 12h)
+    echo "Started new ssh-agent with PID: $SSH_AGENT_PID"
 fi
 
-# If the environment variable $SSH_AUTH_SOCK has not been set
-# yet, source the environment variables from our instance of
-# ssh-agent
-if [ ! -S ~/.ssh/ssh_auth_sock ]; then
-  eval `ssh-agent`
-  ln -sf "$SSH_AUTH_SOCK" ~/.ssh/ssh_auth_sock
+# Add keys to ssh-agent
+ssh-add -l &>/dev/null
+if [ $? -ne 0 ]; then
+    ssh-add ~/.ssh/id_rsa_github_lenovo
+    ssh-add ~/.ssh/id_rsa
 fi
 
-export SSH_AUTH_SOCK=~/.ssh/ssh_auth_sock
-ssh-add -l > /dev/null || ssh-add
+# Export SSH_AUTH_SOCK so that other terminals can find the agent
+export SSH_AUTH_SOCK
+
+# Airbyte
+export PATH="$HOME/.local/bin:$PATH"
+
+# Set up fzf key bindings and fuzzy completion
+source <(fzf --zsh)
