@@ -130,3 +130,7 @@ export PATH="$HOME/.local/bin:$PATH"
 
 # Set up fzf key bindings and fuzzy completion
 source <(fzf --zsh)
+
+# Export TERM variable
+export VAULT_ADDR=https://vault.seed.i.onmercury.io
+
